@@ -1,16 +1,21 @@
 const { Sequelize, DataTypes } = require("sequelize");
+const { prettify } = require("sql-log-prettifier");
 
-const sequelize = new Sequelize(process.env.DB_URL);
+const sequelize = new Sequelize(process.env.DB_URL, {
+  logging: function (unformattedAndUglySql) {
+    const prettifiedSQL = prettify(unformattedAndUglySql);
+    console.log(prettifiedSQL);
+  },
+});
 
-const Class = sequelize.define("class", {
-  class: {
-    type: DataTypes.STRING,
+const Grade = sequelize.define("class", {
+  grade: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   students_count: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false,
-    defaultValue: 28,
   },
 });
 
@@ -44,15 +49,15 @@ const Attendance = sequelize.define("attendance", {
   },
 });
 // class table
-Class.hasMany(Student);
-Student.belongsTo(Class);
+Grade.hasMany(Student);
+Student.belongsTo(Grade);
 
 // Attendance table
 Student.hasMany(Attendance);
 Attendance.belongsTo(Student);
 
-Class.hasMany(Attendance);
-Attendance.belongsTo(Class);
+Grade.hasMany(Attendance);
+Attendance.belongsTo(Grade);
 
 async function connection() {
   try {
@@ -67,4 +72,4 @@ async function connection() {
 
 connection();
 
-module.exports = { Class, Student, Attendance };
+module.exports = { Grade, Student, Attendance };
