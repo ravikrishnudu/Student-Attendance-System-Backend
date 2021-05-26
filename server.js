@@ -56,22 +56,13 @@ app.post("/student", async (req, res) => {
 
 app.get("/student", async (req, res) => {
   try {
-    const student = await getStudents();
-    res.status(201).json(student);
+    const { id, classId } = req.query;
+    const student = await getStudents(id, classId);
+    res.json(student);
   } catch (error) {
     res.status(404).json(error);
   }
 });
-
-// app.get("/student", async (req, res) => {
-//   try {
-//     const { id } = req.query;
-//     const student = await getStudents(id);
-//     res.json(student);
-//   } catch (error) {
-//     res.status(404).json(error);
-//   }
-// });
 
 // not working need to fix
 app.put("student/:id", async (req, res) => {

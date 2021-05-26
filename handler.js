@@ -32,23 +32,19 @@ async function createStudent(data) {
   return student;
 }
 
-async function getStudents() {
-  const student = await Student.findAll();
-  return student;
+async function getStudents(id, classId) {
+  let query;
+  if (id) {
+    query = { where: { id } };
+  } else if (classId) {
+    query = { where: { classId } };
+  } else {
+    query = {};
+  }
+
+  const students = await Student.findAll(query);
+  return students.map((student) => student.toJSON());
 }
-
-// async function getStudents(id) {
-//   let query, grade;
-//   if (id) {
-//     grade = await Class.findOne({ where: { id } });
-//     query = { where: { classId: grade.id } };
-//   } else {
-//     query = {};
-//   }
-
-//   const students = await Student.findAll(query);
-//   return students.map((student) => student.toJSON());
-// }
 
 // not working need to fix
 async function updateStudent(data, id) {
