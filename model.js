@@ -8,7 +8,7 @@ const sequelize = new Sequelize(process.env.DB_URL, {
   },
 });
 
-const Grade = sequelize.define("class", {
+const Grade = sequelize.define("grade", {
   grade: {
     type: DataTypes.INTEGER,
     allowNull: false,

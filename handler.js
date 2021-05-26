@@ -19,15 +19,15 @@ async function deleteGrade(id) {
 
 async function createStudent(data) {
   // console.log(data);
-  const { classId } = data;
+  const { gradeId } = data;
   const student = await Student.create(data);
-  const grade = await Grade.findOne({ where: { id: classId } });
+  const grade = await Grade.findOne({ where: { id: gradeId } });
   grade.toJSON();
 
   const students_count = grade.students_count + 1;
   const updatedGrade = await Grade.update(
     { students_count },
-    { where: { id: classId } }
+    { where: { id: gradeId } }
   );
   return student;
 }
