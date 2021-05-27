@@ -65,7 +65,7 @@ app.get("/student", async (req, res) => {
 });
 
 // not working need to fix
-app.put("student/:id", async (req, res) => {
+app.put("/student/:id", async (req, res) => {
   try {
     let { id } = req.params;
     const student = await updateStudent(req.body, id);
@@ -74,7 +74,15 @@ app.put("student/:id", async (req, res) => {
     res.status(404).json(error);
   }
 });
-
+// app.put("/student/", async (req, res) => {
+//   try {
+//     // let { id } = req.params;
+//     const student = await updateStudent(req.body);
+//     res.status(201).json(student);
+//   } catch (error) {
+//     res.status(404).json(error);
+//   }
+// });
 app.delete("/student/:id", async (req, res) => {
   let { id } = req.params;
   const student = await deleteStudent(id);

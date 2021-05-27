@@ -18,12 +18,11 @@ async function deleteGrade(id) {
 // student
 
 async function createStudent(data) {
-  // console.log(data);
+  console.log(data);
   const { gradeId } = data;
   const student = await Student.create(data);
   const grade = await Grade.findOne({ where: { id: gradeId } });
   grade.toJSON();
-
   const students_count = grade.students_count + 1;
   const updatedGrade = await Grade.update(
     { students_count },
@@ -51,7 +50,12 @@ async function updateStudent(data, id) {
   const student = await Student.update(data, { where: { id } });
   return student;
 }
-
+// async function updateStudent(data) {
+//   const { id } = data;
+//   const oldStudent = await Student.findOne({ where: { id } });
+//   const student = await Student.update(data);
+//   return student;
+// }
 async function deleteStudent(id) {
   const student = await Student.destroy({ where: { id } });
   return student;
