@@ -10,6 +10,9 @@ const {
   getStudents,
   updateStudent,
   deleteStudent,
+  createAttendance,
+  deleteAttendance,
+  getAttendance,
 } = require("./handler");
 
 const app = express();
@@ -56,15 +59,14 @@ app.post("/student", async (req, res) => {
 
 app.get("/student", async (req, res) => {
   try {
-    const { id, classId } = req.query;
-    const student = await getStudents(id, classId);
+    const { id, gradeId } = req.query;
+    const student = await getStudents(id, gradeId);
     res.json(student);
   } catch (error) {
     res.status(404).json(error);
   }
 });
 
-// not working need to fix
 app.put("/student/:id", async (req, res) => {
   try {
     let { id } = req.params;
@@ -74,19 +76,35 @@ app.put("/student/:id", async (req, res) => {
     res.status(404).json(error);
   }
 });
-// app.put("/student/", async (req, res) => {
-//   try {
-//     // let { id } = req.params;
-//     const student = await updateStudent(req.body);
-//     res.status(201).json(student);
-//   } catch (error) {
-//     res.status(404).json(error);
-//   }
-// });
 app.delete("/student/:id", async (req, res) => {
   let { id } = req.params;
   const student = await deleteStudent(id);
   res.json(student);
+});
+// Attendence
+app.post("/attendance", async (req, res) => {
+  try {
+    const attendance = await createAttendance(req.body);
+    res.status(201).json(attendance);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+app.get("/attendance", async (req, res) => {
+  const { studentId, gradeId } = req.query;
+
+  const attendance = await getAttendance(studentId, gradeId);
+  res.json(attendance);
+});
+
+app.delete("/attendance", async (req, res) => {
+  try {
+    const attendance = await deleteAttendance(req.body);
+    res.json(attendance);
+  } catch (error) {
+    res.status(400).json(error);
+  }
 });
 
 const PORT = process.env.PORT || 8001;

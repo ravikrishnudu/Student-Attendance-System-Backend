@@ -31,12 +31,12 @@ async function createStudent(data) {
   return student;
 }
 
-async function getStudents(id, classId) {
+async function getStudents(id, gradeId) {
   let query;
   if (id) {
     query = { where: { id } };
-  } else if (classId) {
-    query = { where: { classId } };
+  } else if (gradeId) {
+    query = { where: { gradeId } };
   } else {
     query = {};
   }
@@ -45,21 +45,54 @@ async function getStudents(id, classId) {
   return students.map((student) => student.toJSON());
 }
 
-// not working need to fix
 async function updateStudent(data, id) {
   const student = await Student.update(data, { where: { id } });
   return student;
 }
-// async function updateStudent(data) {
-//   const { id } = data;
-//   const oldStudent = await Student.findOne({ where: { id } });
-//   const student = await Student.update(data);
-//   return student;
-// }
+
 async function deleteStudent(id) {
   const student = await Student.destroy({ where: { id } });
   return student;
 }
+// Attendence
+async function createAttendance(data) {
+  const { studentId, gradeId } = data;
+  const attendance = await Attendance.create(data);
+  // const attendances = [];
+  // data.forEach((attendance) => {
+  //   const attendance = await Attendance.create(data);
+  //   attendances.push(attendance);
+  // });
+
+  return attendance.toJSON();
+}
+// function createData(data) {
+//   const students = [];
+//   data.forEach((student) => {
+//     const student = await Student.create(student);
+//     students.push(student);
+//   });
+//   return students;
+// }
+async function getAttendance(studentId, gradeId) {
+  let query;
+  if (gradeId) {
+    query = { where: { gradeId } };
+  } else {
+    query = {};
+  }
+  const attendances = await Attendance.findAll(query);
+  return attendances.map((attendance) => attendance.toJSON());
+}
+
+async function deleteAttendance(body) {
+  const { studentId, gradeId } = body;
+  const attendance = await Attendance.destroy({
+    where: { studentId, gradeId },
+  });
+  return attendance;
+}
+
 module.exports = {
   createGrade,
   getGrades,
@@ -68,4 +101,7 @@ module.exports = {
   getStudents,
   updateStudent,
   deleteStudent,
+  createAttendance,
+  getAttendance,
+  deleteAttendance,
 };
