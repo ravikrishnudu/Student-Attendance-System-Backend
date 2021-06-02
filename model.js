@@ -40,12 +40,12 @@ const Student = sequelize.define("student", {
 
 const Attendance = sequelize.define("attendance", {
   date: {
-    type: DataTypes.STRING,
+    type: DataTypes.DATEONLY,
     allowNull: false,
   },
-  isEntered: {
-    type: DataTypes.STRING,
-    // allowNull: false,
+  isPresent: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
   },
 });
 // class table

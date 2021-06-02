@@ -56,24 +56,13 @@ async function deleteStudent(id) {
 }
 // Attendence
 async function createAttendance(data) {
-  const { studentId, gradeId } = data;
-  const attendance = await Attendance.create(data);
-  // const attendances = [];
-  // data.forEach((attendance) => {
-  //   const attendance = await Attendance.create(data);
-  //   attendances.push(attendance);
-  // });
-
-  return attendance.toJSON();
+  const { presentStudents } = data;
+  presentStudents.forEach(async (attendance) => {
+    const newAttendance = await Attendance.create(attendance);
+  });
+  return { msg: "attendance recoded" };
 }
-// function createData(data) {
-//   const students = [];
-//   data.forEach((student) => {
-//     const student = await Student.create(student);
-//     students.push(student);
-//   });
-//   return students;
-// }
+
 async function getAttendance(studentId, gradeId) {
   let query;
   if (gradeId) {

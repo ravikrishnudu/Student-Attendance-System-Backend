@@ -30,7 +30,7 @@ app.post("/grade", async (req, res) => {
   }
 });
 
-app.get("/grade", async (req, res) => {
+app.get("/grades", async (req, res) => {
   try {
     const grade = await getGrades();
     res.status(201).json(grade);
@@ -57,7 +57,7 @@ app.post("/student", async (req, res) => {
   }
 });
 
-app.get("/student", async (req, res) => {
+app.get("/students", async (req, res) => {
   try {
     const { id, gradeId } = req.query;
     const student = await getStudents(id, gradeId);
@@ -87,7 +87,8 @@ app.post("/attendance", async (req, res) => {
     const attendance = await createAttendance(req.body);
     res.status(201).json(attendance);
   } catch (error) {
-    res.status(400).json(error);
+    console.log(error);
+    res.status(400).json({ error });
   }
 });
 
