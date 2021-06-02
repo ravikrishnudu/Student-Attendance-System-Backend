@@ -1,13 +1,19 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const { prettify } = require("sql-log-prettifier");
 
-const sequelize = new Sequelize(process.env.DB_URL, {
-  logging: function (unformattedAndUglySql) {
-    const prettifiedSQL = prettify(unformattedAndUglySql);
-    console.log(prettifiedSQL);
-  },
-});
-
+const sequelize = new Sequelize(
+  process.env.database,
+  process.env.username,
+  process.env.password,
+  {
+    host: process.env.host,
+    dialect: "postgres",
+    logging: function (unformattedAndUglySql) {
+      const prettifiedSQL = prettify(unformattedAndUglySql);
+      console.log(prettifiedSQL);
+    },
+  }
+);
 const Grade = sequelize.define("grade", {
   grade: {
     type: DataTypes.INTEGER,
