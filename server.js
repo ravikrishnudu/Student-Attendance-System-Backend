@@ -19,7 +19,10 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
-
+// test
+app.get("/test", (req, res) => {
+  res.json({ msg: "server is up" });
+});
 //class
 app.post("/grade", async (req, res) => {
   try {
